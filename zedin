@@ -1,0 +1,112 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+ZEDİN - Türkçe Assembly IDE
+Ana başlatıcı script
+"""
+
+import sys
+import os
+
+# Modülleri içe aktar
+from zedin_ide import ZedinIDE
+from zedin_kernel import ZedinKernel
+from zedin_editor import ZedinEditör
+
+
+def ana_menu():
+    """Ana menüyü göster"""
+    print("""
+╔════════════════════════════════════════════════════════════════╗
+║     ZEDİN TÜRKÇE ASSEMBLY IDE - KOMUT SATIRI ARAYÜZÜ         ║
+║                                                                ║
+║  Tüm kodlar Türkçe - Tüm özellikler entegre                  ║
+║  VM | Assembler | Linker | Kernel | libZED                   ║
+╚════════════════════════════════════════════════════════════════╝
+
+Seçenekler:
+  1. IDE Başlat (Editör + Derleyici + Çalıştırıcı)
+  2. Kernel Başlat (Sistem Yönetimi)
+  3. Editör Başlat (Sözdizim Vurgulama)
+  4. Çıkış
+
+Seçiminiz: """)
+
+
+def main():
+    """Ana program"""
+    if len(sys.argv) > 1:
+        komut = sys.argv[1].lower()
+        
+        if komut == "ide":
+            ide = ZedinIDE()
+            ide.ana_döngü()
+        
+        elif komut == "kernel":
+            kernel = ZedinKernel()
+            kernel.ana_döngü()
+        
+        elif komut == "editor":
+            editör = ZedinEditör()
+            editör.referans_göster()
+        
+        elif komut == "--help" or komut == "-h":
+            print("""
+Kullanım: zedin [komut]
+
+Komutlar:
+  ide              - IDE başlat
+  kernel           - Kernel başlat
+  editor           - Editör başlat
+  --help, -h       - Bu mesajı göster
+  --version, -v    - Versiyon bilgisi
+
+Örnek:
+  zedin ide
+  zedin kernel
+  zedin editor
+""")
+        
+        elif komut == "--version" or komut == "-v":
+            print("Zedin v1.0 - Türkçe Assembly IDE")
+        
+        else:
+            print(f"Bilinmeyen komut: {komut}")
+            print("Yardım için: zedin --help")
+    
+    else:
+        # İnteraktif menü
+        while True:
+            ana_menu()
+            try:
+                seçim = input().strip()
+                
+                if seçim == "1":
+                    ide = ZedinIDE()
+                    ide.ana_döngü()
+                
+                elif seçim == "2":
+                    kernel = ZedinKernel()
+                    kernel.ana_döngü()
+                
+                elif seçim == "3":
+                    editör = ZedinEditör()
+                    editör.referans_göster()
+                
+                elif seçim == "4":
+                    print("Hoşça kalın!")
+                    break
+                
+                else:
+                    print("Geçersiz seçim!")
+            
+            except KeyboardInterrupt:
+                print("\nHoşça kalın!")
+                break
+            except Exception as e:
+                print(f"Hata: {e}")
+
+
+if __name__ == "__main__":
+    main()
